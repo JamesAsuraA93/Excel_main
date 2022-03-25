@@ -21,14 +21,30 @@ class Generator_card_Shuffle(ttk.Frame):
         self.entry_number_of_rows = ttk.Entry(self, width=10, textvariable=file_to_count)
         self.entry_number_of_rows.grid(row=1, column=1, sticky=tk.W, padx=5)
 
-        self.button_counting = ttk.Button(self, text="Shuffle", command=self.counting)
-        self.button_counting.grid(row=3, column=0, columnspan=4, pady=20, sticky="N")
+        self.button_counting = ttk.Button(self, text="Counting", command=self.counting)
+        self.button_counting.grid(row=4, column=0, columnspan=4, pady=20, sticky="N")
 
         self.name_file_to_count = file_to_count.get()
 
+        option_list = ('Count_All','Turn(1)', 'River(1)', 'Small blind(2)', 'Big blind(2)', 'Under the gun(UTG)(2)','Under the gun(UTG)+1(2)', 'Middle position (MP)(2)', 'Middle position (MP)+1(2)', 'Cut off(2)','Button(2)')
+        self.option_menu = ttk
+        value = tk.StringVar(self)
+        value.set('เลือก Option')
+        self.option_menu = tk.OptionMenu(self, value, *option_list)
+        self.option_menu.config(width=10)
+        self.option_menu.grid(row=2, column=0, columnspan=2, pady=5, sticky="N")
+        self.value = value
+
+    def get_option(self):
+        return self.value.get()
+
+
     def counting(self):
         self.name_file_to_count = self.entry_number_of_rows.get()
-        main(self.name_file_to_count)
+        if self.get_option() == 'Count_All':
+            main(self.name_file_to_count,['Turn(1)', 'River(1)', 'Small blind(2)', 'Big blind(2)', 'Under the gun(UTG)(2)','Under the gun(UTG)+1(2)', 'Middle position (MP)(2)', 'Middle position (MP)+1(2)', 'Cut off(2)','Button(2)'])
+        else:
+            main(self.name_file_to_count,[self.get_option()])
         self.popup()
 
     def popup(self):
